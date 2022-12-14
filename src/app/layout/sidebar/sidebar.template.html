@@ -1,0 +1,43 @@
+<div class="js-sidebar-content">
+    <header class="logo d-none d-md-block">
+<!--        <div class="no-padding">-->
+<!--            <img style="width: 60%" src="assets/img/logo.png">-->
+<!--        </div>-->
+        <!--        <div class="no-padding" *ngIf="loginService.currentBrand">-->
+        <!--            <img *ngIf="getLogo()" style="width: 80%" [src]="getLogo()">-->
+        <!--            <p *ngIf="!getLogo()">No logo</p>-->
+        <!--        </div>-->
+        <!--        <h5 style="margin-top: 12px;" *ngIf="loginService.currentBrand">{{loginService.currentBrand?.name}}</h5>-->
+    </header>
+
+    <!--    *ngIf="!loginService.impersonificaBrandMode && loginService.user?.role === 'admin'"-->
+    <ul class="sidebar-nav">
+        <li routerLinkActive="active">
+            <a class="main-item" data-target="#sidebar-dashboard-1" data-toggle="collapse" data-parent="#sidebar">
+                Amministrazione
+                <i class="toggle fa fa-angle-down"></i>
+            </a>
+            <ul id="sidebar-dashboard-1">
+                <li routerLinkActive="active">
+                    <a class="main-item" routerLink="dashboard">Dashboard</a>
+                </li>
+                <li routerLinkActive="active">
+                    <a class="main-item" routerLink="users">Utenti</a>
+                </li>
+                <li routerLinkActive="active">
+                    <a class="main-item" routerLink="posts">Post</a>
+                </li>
+                <li routerLinkActive="active">
+                    <a class="main-item" routerLink="pages">Pagine</a>
+                </li>
+            </ul>
+        </li>
+        <!--        <li routerLinkActive="active" *ngIf="canSee('profile')">-->
+        <!--            <a class="main-item" [routerLink]="'/profile/mine'">Profilo</a>-->
+        <!--        </li>-->
+    </ul>
+</div>
+
+<footer class="centered" style="position: absolute; bottom: 18px; width: 100%;">
+    <span style="font-size: 12px;">v. {{version}}</span>
+</footer>

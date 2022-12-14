@@ -1,0 +1,41 @@
+<div class="container">
+    <h5 class="auth-logo">
+        <img src="../../../../assets/img/logo.png" style="max-width: 200px;">
+    </h5>
+    <widget class="widget-auth mx-auto"
+            [title]="'<h3 class=mt-0>Password dimenticata?</h3>'"
+            [customHeader]="true"
+            bodyClass="mt-0">
+        <p class="widget-auth-info">
+            Inserisci la email per ricevere le istruzioni per reimpostare la password
+        </p>
+        <br>
+        <form [formGroup]="form">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <div class="form-group">
+                    <input name="email"
+                           formControlName="email"
+                           class="form-control no-border"
+                           id="email"
+                           type="email"
+                           placeholder="email">
+                </div>
+            </div>
+            <ng-container>
+                <span *ngIf="form?.get('email')?.touched && form?.get('email')?.errors?.required"
+                      class="text text-danger mt-1">Campo richiesto</span>
+                <span *ngIf="form?.get('email')?.touched && form?.get('email')?.errors?.pattern"
+                      class="text text-danger mt-1">Email non formattata correttamente</span>
+            </ng-container>
+            <button class="btn btn-inverse btn-sm auth-btn mb-3"
+                    (click)="restore()"
+                    [disabled]="form.invalid"
+                    type="submit">Resetta password
+            </button>
+        </form>
+    </widget>
+</div>
+<footer class="auth-footer">
+    2022 &copy; Fisio Air
+</footer>

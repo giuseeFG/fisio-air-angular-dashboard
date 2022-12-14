@@ -1,0 +1,72 @@
+<div class="container" style="padding-top: 10vh">
+    <h5 class="auth-logo">
+        <img src="../../../../assets/img/logo.png" style="max-width: 200px;">
+    </h5>
+    <widget class="widget-auth mx-auto"
+            [title]="'<h3 class=mt-0>Password dimenticata?</h3>'"
+            [customHeader]="true"
+            bodyClass="mt-0">
+        <p class="widget-auth-info">
+            Genera una nuova password
+        </p>
+        <br>
+        <form [formGroup]="form" class="login-form" (submit)="done(form)">
+            <div class="form-group">
+
+                <input class="form-control no-border"
+                       minlength="6"
+                       formControlName="email"
+                       type="email"
+                       placeholder="Inserisci email"
+                       required>
+                <div *ngIf="form.controls.email.touched && form.controls.email.errors?.required"
+                     class="text text-danger mt-1">
+                    Email obbligatoria
+                </div>
+            </div>
+            <div class="form-group relative">
+                <input class="form-control no-border"
+                       minlength="6"
+                       formControlName="password"
+                       [type]="hide ? 'password' : 'text'"
+                       placeholder="Nuova password"
+                       required>
+                <i class="glyphicon glyphicon glyphicon-eye-open mr-xs eye-hide" *ngIf="!hide" (click)="hide = !hide">
+                </i>
+                <i class="glyphicon glyphicon glyphicon-eye-close mr-xs eye-hide" *ngIf="hide" (click)="hide = !hide">
+                </i>
+                <div *ngIf="form.controls.password.touched && form.controls.password.errors?.required"
+                     class="text text-danger mt-1">
+                    Password obbligatoria
+                </div>
+            </div>
+            <div class="form-group">
+                <input class="form-control no-border"
+                       formControlName="repeat_password"
+                       type="password"
+                       placeholder="Ripeti password"
+                       minlength="6"
+                       required>
+                <div *ngIf="form.controls.repeat_password.touched && form.controls.repeat_password.errors?.required"
+                     class="text text-danger mt-1">
+                    Password obbligatoria
+                </div>
+                <div *ngIf="form.controls.repeat_password.touched && form.value.password !== form.value.repeat_password"
+                     class="text text-danger mt-1">
+                    Le password non corrispondono
+                </div>
+            </div>
+            <small class="m-b-10">* (minimo 6 caratteri)</small>
+            <div class="form-group form-row mb-0">
+
+                <button class="btn btn-inverse btn-sm auth-btn mb-3" [disabled]="form.invalid" type="submit">Invia
+                </button>
+
+            </div>
+        </form>
+    </widget>
+    <footer class="auth-footer">
+        2022 &copy; Fisio Air
+    </footer>
+</div>
+

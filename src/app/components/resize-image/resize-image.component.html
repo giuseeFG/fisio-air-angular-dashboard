@@ -1,0 +1,53 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Ritaglia immagine</h4>
+        <button type="button" class="close pull-right" (click)="hideModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-6">
+                <button (click)="rotateLeft()" class="btn btn-outline-primary btn-sm mr-6">Ruota sinistra</button>
+                <button (click)="rotateRight()" class="btn btn-outline-primary btn-sm mr-6">Ruota destra</button>
+                <button (click)="flipHorizontal()" class="btn btn-outline-primary btn-sm mr-6">Flip orizzontale</button>
+                <button (click)="flipVertical()" class="btn btn-outline-primary btn-sm">Flip verticale</button>
+                <br>
+                <image-cropper [maintainAspectRatio]="false"
+                               [canvasRotation]="canvasRotation"
+                               [imageBase64]="image"
+                               [cropperMinHeight]="100"
+                               [cropperMinWidth]="100"
+                               [resizeToWidth]="500"
+                               [hideResizeSquares]="false"
+                               [containWithinAspectRatio]="false"
+                               [transform]="transform"
+                               (imageCropped)="finalImage = $event.base64">
+                </image-cropper>
+
+                <div *ngIf="aspectRatio" class="margin-top">
+                    <p>Rapporto larghezza/altezza immagine: <strong>{{aspectRatio}} (min: {{aspectRatioExampleText}}
+                        )</strong>
+                    </p>
+                </div>
+            </div>
+            <div class="col-6">
+                <strong>Anteprima ritaglio:</strong>
+                <div id="preview">
+                    <img [src]="finalImage">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-outline-danger mb-xs" role="button"
+                (click)="noCrop_()">
+            Non ritagliare
+        </button>
+        <button class="btn btn-outline-primary mb-xs" role="button"
+                (click)="crop()">
+            Ritaglia
+        </button>
+    </div>
+</div>

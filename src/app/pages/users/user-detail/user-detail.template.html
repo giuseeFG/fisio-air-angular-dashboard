@@ -1,0 +1,110 @@
+<ol class="breadcrumb" *ngIf="dataReceived">
+    <li class="breadcrumb-item">Utenti</li>
+    <li class="active breadcrumb-item"
+        *ngIf="currentUser">{{currentUser?.first_name}} {{currentUser?.last_name}}</li>
+    <li class="active breadcrumb-item" *ngIf="!currentUser">Nuovo utente</li>
+</ol>
+
+<h1 class="page-title" *ngIf="currentUser && dataReceived">
+    {{currentUser?.first_name}} {{currentUser?.last_name}} - <span class="fw-semi-bold">Profilo</span>
+</h1>
+
+<section class="widget" [formGroup]="form" *ngIf="form && dataReceived">
+    <div class="row">
+        <div class="col-6 centered" *ngIf="currentUser">
+            <div>
+                <img class="user-avatar"
+                     [src]="currentUser?.avatar ? utilsService.getCDNPath(currentUser.avatar) : 'assets/img/user_placeholder.png'"
+                     (error)="currentUser.avatar = 'assets/img/user_placeholder.png'">
+                <h5 class="fw-normal" style="margin-top: 12px;">{{currentUser?.first_name}} <span
+                        class="fw-semi-bold">{{currentUser?.last_name}}</span></h5>
+                <i class="fa fa-lg fa-envelope fa-fw mr-xs"></i>{{currentUser?.email}}<br>
+                <div *ngIf="currentUser?.born">
+                    <i class="fa fa-lg fa-birthday-cake fa-fw mr-xs"></i>{{utilsService.parseDate(currentUser.born, 'll')}}
+                </div>
+            </div>
+        </div>
+
+        <div class="row col-6">
+            <div class="form-group col-6">
+                <h4>Nome</h4>
+                <input formControlName="first_name"
+                       placeholder="Inserisci il nome"
+                       type="text"
+                       id="first_name"
+                       readonly
+                       class="form-control input-transparent">
+                <span *ngIf="form?.get('first_name')?.touched && form?.get('first_name')?.errors?.required"
+                      class="text text-danger mt-1">Campo obbligatorio</span>
+            </div>
+            <div class="form-group col-6">
+                <h4>Cognome</h4>
+                <input formControlName="last_name"
+                       placeholder="Inserisci il cognome"
+                       type="text"
+                       readonly
+                       id="last_name"
+                       class="form-control input-transparent">
+            </div>
+            <div class="form-group col-12">
+                <h4>Email</h4>
+                <input formControlName="email"
+                       placeholder="Inserisci la mail"
+                       type="text"
+                       id="email"
+                       readonly
+                       class="form-control input-transparent">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="widget">
+    <h4>Post dell'utente</h4>
+    <ngx-datatable class="table table-striped table-hover"
+                   [rows]="posts || []"
+                   [columnMode]="'flex'"
+                   [headerHeight]="50"
+                   [footerHeight]="posts?.length ? 50 : 0"
+                   [messages]="{emptyMessage:'Nessun post', totalMessage: posts?.length === 1 ? 'post' : 'post'}"
+                   [rowHeight]="'auto'"
+                   [limit]="50">
+        <ngx-datatable-column [draggable]="false" name="Contenuto" prop="status" [flexGrow]="3">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span class="max3lines">{{row?.content?.substring(0, 100)}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [draggable]="false" name="Creato il" prop="created_at" [flexGrow]="3">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{utilsService.parseDate(row.created_at, 'lll')}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [draggable]="false" [flexGrow]="3">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="pull-right">
+                    <button class="btn btn-outline-primary no-border"
+                            [routerLink]="'/posts/' + row.id"
+                            role="button">
+                        Visualizza
+                    </button>
+                </div>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</section>
+
+<section class="widget bottom-widget" *ngIf="dataReceived">
+    <div class="pull-right">
+        <button class="btn btn-outline-primary width-100"
+                role="button"
+                (click)="utilsService.goBack()">
+            Indietro
+        </button>
+        <button class="btn btn-success width-100 ml-6"
+                role="button"
+                [disabled]="form?.invalid"
+                (click)="save()">
+            Salva
+        </button>
+    </div>
+</section>

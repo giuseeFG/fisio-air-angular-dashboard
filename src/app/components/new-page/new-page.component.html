@@ -1,0 +1,26 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Crea nuova pagina</h4>
+        <button type="button" class="close pull-right" (click)="hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <div class="form-group col-12">
+            <h4>Titolo</h4>
+            <input placeholder="Titolo pagina"
+                   [(ngModel)]="title"
+                   class="form-control input-transparent">
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-outline-primary mb-xs"
+                role="button"
+                [disabled]="!title?.trim()?.length"
+                (click)="yesClicked()">
+            Crea pagina
+        </button>
+    </div>
+</div>

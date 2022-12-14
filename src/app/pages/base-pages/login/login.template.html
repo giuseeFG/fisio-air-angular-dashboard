@@ -1,0 +1,47 @@
+<div class="container">
+<!--    <h5 class="auth-logo animated fadeInUp">-->
+<!--        <img src="../../../../assets/img/logo.png" style="max-width: 200px;">-->
+<!--    </h5>-->
+    <widget class="widget-auth animated fadeInUp mx-auto"
+            [title]="'<h3 class=mt-0>Benvenuto</h3>'"
+            [customHeader]="true"
+            bodyClass="mt-0">
+        <p class="widget-auth-info">
+            Inserisci le credenziali di accesso
+        </p>
+        <br>
+        <form class="login-form" (ngSubmit)="login()">
+            <alert type="danger alert-sm" *ngIf="loginService.errorMessage">
+                {{loginService.errorMessage}}
+            </alert>
+            <div class="form-group">
+                <input name="email" [(ngModel)]="username" class="form-control no-border" id="email" type="text"
+                       placeholder="username o email" required>
+            </div>
+            <div class="form-group">
+                <input name="password" [(ngModel)]="password" class="form-control no-border" id="password"
+                       type="password"
+                       placeholder="Password" required>
+            </div>
+            <button class="btn btn-inverse btn-sm auth-btn mb-3"
+                    [disabled]="loginService.isFetching"
+                    type="submit">{{loginService.isFetching ? 'Loading...' : 'Login'}}</button>
+        </form>
+
+        <div class="text-center full-width" style="margin-top: 5px;">
+            <button style="margin: 14px auto 0;" class="btn btn-outline-secondary"
+                    routerLink="/forgot-pwd"
+                    role="button">
+                Password dimenticata
+            </button>
+        </div>
+    </widget>
+    <footer class="auth-footer">
+        <div style="display: grid;">
+            <span>
+                2022 &copy; Fisio Air
+            </span>
+            <span style="font-size: 12px;">v. {{version}}{{getEnvironment()}}</span>
+        </div>
+    </footer>
+</div>
