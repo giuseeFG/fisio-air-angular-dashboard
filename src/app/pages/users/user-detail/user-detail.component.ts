@@ -16,6 +16,7 @@ export class UserDetailComponent implements OnInit {
     form: FormGroup;
     searchText;
     dataReceived = false;
+    posts = [];
 
     constructor(
         private fb: FormBuilder,
