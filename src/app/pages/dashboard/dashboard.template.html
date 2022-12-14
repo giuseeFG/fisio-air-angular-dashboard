@@ -9,11 +9,11 @@
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="pb-5 h-100">
                         <widget class="h-100 mb-0 underlined-hover"
-                                [title]="'Utenti'"
-                                routerLink="/users"
+                                [title]="'Formatori'"
+                                routerLink="/trainers"
                                 [fetchingData]="fetchingData">
                             <div class="d-flex justify-content-between align-items-center mb-lg">
-                                <h2>{{userService.allUsersCount}}</h2>
+                                <h2>{{trainersService.allTrainersCount}}</h2>
                             </div>
                             <!--                            <span>Da approvare</span>-->
                             <!--                            <div class="d-flex justify-content-between align-items-center mb-lg underlined-hover"-->
@@ -26,8 +26,8 @@
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="pb-5 h-100">
                         <widget class="h-100 mb-0 underlined-hover"
-                                [title]="'Post'"
-                                routerLink="/posts"
+                                [title]="'Sedi'"
+                                routerLink="/sites"
                                 [fetchingData]="fetchingData">
                             <div class="d-flex justify-content-between align-items-center mb-lg">
                                 <h2>{{10}}</h2>

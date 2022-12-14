@@ -30,7 +30,7 @@
                class="rounded-circle"
                style="width: 100%; height: 100%;"
                [src]="utilsService.getCDNPath(loginService.user?.avatar) || 'assets/img/people/a5.jpg'"/>
-          <span *ngIf="loginService.user">{{loginService.user?.first_name[0] | uppercase}}</span>
+<!--          <span *ngIf="loginService.user">{{loginService.user?.first_name[0] | uppercase}}</span>-->
         </span>
         <span class="small">{{loginService.user?.first_name}} {{loginService.user?.last_name}}</span>
         <!--      <span class="ml-1 circle bg-warning text-white fw-bold">13</span>-->
