@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
                 console.log('firebaseUser1');
                 // const user: any = await this.loginService.getUser(firebaseUser.uid)
                 if (!firebaseUser) {
+                    localStorage.removeItem('fisio_air_user');
                     this.router.navigate(['login']);
                 } else {
                     // this.router.navigate(['dashboard']);

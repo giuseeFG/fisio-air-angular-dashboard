@@ -47,7 +47,7 @@ export class LoginService {
             this.skipLogin = true;
             return firebase.auth().signInWithEmailAndPassword(creds.username, creds.password)
                 .then(async (res: any) => {
-                    console.log('ecco');
+                    localStorage.setItem('fisio_air_user', JSON.stringify(res));
                     this.router.navigate(['dashboard']);
                     return res;
                     // return await this.getUser(res.user.uid);
