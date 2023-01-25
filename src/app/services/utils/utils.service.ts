@@ -171,10 +171,10 @@ export class UtilsService {
                 if (!key) {
                     return false;
                 }
-                if (obj.first_name && obj.last_name) {
+                if (obj.nome && obj.cognome) {
                     if (
-                        (obj.first_name + ' ' + obj.last_name).toLowerCase().trim().includes(searchKey) ||
-                        (obj.last_name + ' ' + obj.first_name).toLowerCase().trim().includes(searchKey)
+                        (obj.nome + ' ' + obj.cognome).toLowerCase().trim().includes(searchKey) ||
+                        (obj.cognome + ' ' + obj.nome).toLowerCase().trim().includes(searchKey)
                     ) {
                         return true;
                     }

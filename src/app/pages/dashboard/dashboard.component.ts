@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UtilsService} from '../../services/utils/utils.service';
-import {TrainersService} from '../../services/trainers/trainers.service';
+import {PartecipantiService} from '../../services/partecipanti/partecipanti.service';
 
 @Component({
     selector: 'dashboard',
@@ -8,17 +8,19 @@ import {TrainersService} from '../../services/trainers/trainers.service';
 })
 export class DashboardComponent implements OnInit {
     fetchingData = true;
+    partecipanti;
 
     constructor(
         public utilsService: UtilsService,
-        public trainersService: TrainersService,
+        public partecipantiService: PartecipantiService,
     ) {
     }
 
     async ngOnInit() {
         const data: any = await Promise.all([
-            this.trainersService.getTrainersCount(),
+            this.partecipantiService.getPartecipanti(),
         ]);
+        this.partecipanti = data[0].fisio_partecipanti;
         this.fetchingData = false;
     }
 }

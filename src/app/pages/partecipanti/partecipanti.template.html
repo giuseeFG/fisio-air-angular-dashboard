@@ -1,0 +1,70 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">Partecipanti</li>
+    <li class="active breadcrumb-item">Tutti</li>
+</ol>
+
+<h1 class="page-title">Partecipanti</h1>
+
+<div class="row margin-top">
+    <div class="col-12">
+        <section>
+            <div class="float-right">
+                <div class="input-group input-group-rounded">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="fa fa-search"></i>
+                        </span>
+                    </span>
+                    <input class="form-control" type="text" debounce [delay]="700"
+                           placeholder="Cerca partecipante..." [(ngModel)]="searchText">
+                </div>
+            </div>
+
+            <ngx-datatable class="table table-striped table-hover"
+                           [rows]="getFilteredItems()"
+                           [columnMode]="'flex'"
+                           [headerHeight]="50"
+                           [footerHeight]="50"
+                           [messages]="{emptyMessage:'Nessun partecipante', totalMessage: getFilteredItems().length === 1 ? 'partecipante' : 'utenti'}"
+                           [rowHeight]="'auto'"
+                           [limit]="50">
+                <ngx-datatable-column [draggable]="false" name="nome" [sortable]="false" prop="last_name"
+                                      [width]="250" [flexGrow]="3">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class="flex underlined-hover" style="align-items: center;"
+                             [routerLink]="row.id">
+                            <div style="display: flex; flex-direction: column; margin-left: 5px;">
+                                <span class="fw-semi-bold underlined-hover">
+                                    {{row.nome}} {{row.cognome}}
+                                </span>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [draggable]="false" name="codice fiscale" [sortable]="false" prop="created_at"
+                                      [flexGrow]="3">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.cod_fisc}}
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [draggable]="false" name="tipo contratto" [sortable]="false" prop="libprof_dip"
+                                      [flexGrow]="3">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.libprof_dip === 'C' ? 'Convenzionato' : row.libprof_dip === 'L' ? 'Libero professionista' : row.libprof_dip === 'D' ? 'Dipendente' : '-'}}
+                    </ng-template>
+                </ngx-datatable-column>
+                <!--                <ngx-datatable-column [draggable]="false" [flexGrow]="3">-->
+                <!--                    <ng-template let-row="row" ngx-datatable-cell-template>-->
+                <!--                        <div class="flex" *ngIf="row.email !== 'admin@tremitinow.it'">-->
+                <!--                            <button class="btn btn-outline-danger no-border"-->
+                <!--                                    (click)="removeUser(row)"-->
+                <!--                                    role="button">-->
+                <!--                                Rimuovi-->
+                <!--                            </button>-->
+                <!--                        </div>-->
+                <!--                    </ng-template>-->
+                <!--                </ngx-datatable-column>-->
+            </ngx-datatable>
+        </section>
+    </div>
+</div>

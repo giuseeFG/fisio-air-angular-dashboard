@@ -20,6 +20,16 @@ const routes: Routes = [
                 loadChildren: '../pages/users/user-detail/user-detail.module#UserDetailModule',
                 canActivate: [AppGuard]
             },
+            {
+                path: 'partecipanti',
+                loadChildren: '../pages/partecipanti/partecipanti.module#PartecipantiModule',
+                canActivate: [AppGuard]
+            },
+            {
+                path: 'partecipanti/:id',
+                loadChildren: '../pages/partecipanti/partecipante-detail/partecipante-detail.module#PartecipanteDetailModule',
+                canActivate: [AppGuard]
+            },
         ]
     }
 ];

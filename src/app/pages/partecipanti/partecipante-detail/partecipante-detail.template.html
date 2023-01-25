@@ -1,0 +1,64 @@
+<ol class="breadcrumb" *ngIf="dataReceived">
+    <li class="breadcrumb-item">Partecipanti</li>
+    <li class="active breadcrumb-item"
+        *ngIf="currentPartecipante">{{currentPartecipante?.nome}} {{currentPartecipante?.cognome}}</li>
+    <li class="active breadcrumb-item" *ngIf="!currentPartecipante">Nuovo partecipante</li>
+</ol>
+
+<h1 class="page-title" *ngIf="currentPartecipante && dataReceived">
+    {{currentPartecipante?.nome}} {{currentPartecipante?.cognome}} - <span class="fw-semi-bold">Profilo</span>
+</h1>
+
+<section class="widget" [formGroup]="form" *ngIf="form && dataReceived">
+    <div class="row">
+        <div class="col-6 form-group">
+            <h4>Nome</h4>
+            <input formControlName="nome"
+                   placeholder="Inserisci il nome"
+                   class="form-control input-transparent">
+        </div>
+        <div class="col-6 form-group">
+            <h4>Cognome</h4>
+            <input formControlName="cognome"
+                   placeholder="Inserisci il cognome"
+                   class="form-control input-transparent">
+        </div>
+        <div class="col-6 form-group">
+            <h4>Codice fiscale</h4>
+            <input formControlName="cod_fisc"
+                   placeholder="Inserisci il cognome"
+                   class="form-control input-transparent">
+        </div>
+        <div class="col-6 form-group">
+            <h4>Disciplina</h4>
+            <input formControlName="disciplina"
+                   class="form-control input-transparent">
+        </div>
+        <div class="col-6 form-group">
+            <h4>Tipologia contratto</h4>
+            <input formControlName="libprof_dip"
+                   class="form-control input-transparent">
+        </div>
+        <div class="col-6 form-group">
+            <h4>Professione</h4>
+            <input formControlName="professione"
+                   class="form-control input-transparent">
+        </div>
+    </div>
+</section>
+
+<section class="widget bottom-widget" *ngIf="dataReceived">
+    <div class="pull-right">
+        <button class="btn btn-outline-primary width-100"
+                role="button"
+                (click)="utilsService.goBack()">
+            Indietro
+        </button>
+        <button class="btn btn-success width-100 ml-6"
+                role="button"
+                [disabled]="form?.invalid"
+                (click)="save()">
+            Salva
+        </button>
+    </div>
+</section>
