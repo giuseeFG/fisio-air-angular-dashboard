@@ -27,8 +27,12 @@ export class PartecipantiService {
     }
 
     async updatePartecipante(data) {
-        data = {...UtilsService.trimAllFields(data)};
-        return this.httpClient.patch(environment.basePath + '/partecipanti?id=eq.' + data.id, data).toPromise();
+        const headers = new HttpHeaders()
+            .set('Content-Type', 'application/json')
+            .set('x-hasura-admin-secret', environment.hasuraSecret);
+        return await this.httpClient.patch(environment.basePath + '/partecipanti/' + data.id,
+            {data},
+            {headers}).toPromise();
     }
 
     getPartecipanti() {
@@ -44,6 +48,6 @@ export class PartecipantiService {
         const headers = new HttpHeaders()
             .set('Content-Type', 'application/json')
             .set('x-hasura-admin-secret', environment.hasuraSecret);
-        return await this.httpClient.post(environment.basePath + '/partecipanti/' + id, {}, {headers}).toPromise();
+        return await this.httpClient.get(environment.basePath + '/partecipanti/' + id, {headers}).toPromise();
     }
 }

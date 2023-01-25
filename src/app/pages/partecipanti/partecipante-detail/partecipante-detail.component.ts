@@ -12,9 +12,9 @@ import {PartecipantiService} from '../../../services/partecipanti/partecipanti.s
     templateUrl: './partecipante-detail.template.html'
 })
 export class PartecipanteDetailComponent implements OnInit {
-    currentPartecipante;
     form: FormGroup;
     dataReceived = false;
+    currentPartecipante;
 
     constructor(
         private fb: FormBuilder,
@@ -29,14 +29,14 @@ export class PartecipanteDetailComponent implements OnInit {
             if (params?.id) {
                 const data: any = await this.partecipantiService.getPartecipante(params.id);
                 if (data.fisio_partecipanti?.length) {
-                    this.currentPartecipante = data.fisio_partecipanti[0];
+                    const currentPartecipante = data.fisio_partecipanti[0];
+                    this.currentPartecipante = currentPartecipante;
+                    if (!currentPartecipante) {
+                        this.utilsService.goBack();
+                        return;
+                    }
+                    this.setForm(currentPartecipante);
                 }
-                console.log('currentPartecipante', this.currentPartecipante);
-                if (!this.currentPartecipante) {
-                    this.utilsService.goBack();
-                    return;
-                }
-                this.setForm();
             } else {
                 this.utilsService.goBack();
             }
@@ -44,15 +44,15 @@ export class PartecipanteDetailComponent implements OnInit {
         });
     }
 
-    async setForm() {
+    async setForm(currentPartecipante) {
         this.form = this.fb.group({
-            id: [this.currentPartecipante?.id],
-            cod_fisc: [this.currentPartecipante?.cod_fisc],
-            nome: [this.currentPartecipante?.nome],
-            cognome: [this.currentPartecipante?.cognome],
-            disciplina: [this.currentPartecipante?.disciplina],
-            libprof_dip: [this.currentPartecipante?.libprof_dip],
-            professione: [this.currentPartecipante?.professione],
+            id: [currentPartecipante?.id],
+            cod_fisc: [currentPartecipante?.cod_fisc],
+            nome: [currentPartecipante?.nome],
+            cognome: [currentPartecipante?.cognome],
+            disciplina: [currentPartecipante?.disciplina],
+            libprof_dip: [currentPartecipante?.libprof_dip],
+            professione: [currentPartecipante?.professione],
         });
     }
 
@@ -62,28 +62,22 @@ export class PartecipanteDetailComponent implements OnInit {
     save() {
         const bsModalRef = this.modalService.show(GenericConfirmComponent, {
             initialState: {
-                title: this.currentPartecipante ? 'Aggiorna partecipante' : 'Crea partecipante',
-                text: `Confermi di voler ${this.currentPartecipante ? 'aggiornare' : 'creare'} il partecipante?`
+                title: this.form.value.id ? 'Aggiorna partecipante' : 'Crea partecipante',
+                text: `Confermi di voler ${this.form.value.id ? 'aggiornare' : 'creare'} il partecipante?`
             }
         });
         bsModalRef.content.eventYes.subscribe(async res => {
             this.utilsService.loaderActive = true;
 
-            this.form.controls['email'].patchValue(this.form.controls['email'].value.trim().toLowerCase());
             const data = {...this.form.value};
-            delete data.role;
             let newUser;
             newUser = await this.partecipantiService.updatePartecipante(data);
             if (!newUser) {
                 this.utilsService.loaderActive = false;
                 return;
             }
-            this.currentPartecipante = newUser;
+            this.utilsService.goBack();
             this.utilsService.loaderActive = false;
         });
-    }
-
-    isCurrentUser() {
-        return this.currentPartecipante.id === this.loginService.user.id;
     }
 }

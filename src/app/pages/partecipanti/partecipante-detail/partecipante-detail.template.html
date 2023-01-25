@@ -1,11 +1,11 @@
 <ol class="breadcrumb" *ngIf="dataReceived">
     <li class="breadcrumb-item">Partecipanti</li>
     <li class="active breadcrumb-item"
-        *ngIf="currentPartecipante">{{currentPartecipante?.nome}} {{currentPartecipante?.cognome}}</li>
+        *ngIf="currentPartecipante?.id">{{currentPartecipante?.nome}} {{currentPartecipante?.cognome}}</li>
     <li class="active breadcrumb-item" *ngIf="!currentPartecipante">Nuovo partecipante</li>
 </ol>
 
-<h1 class="page-title" *ngIf="currentPartecipante && dataReceived">
+<h1 class="page-title" *ngIf="currentPartecipante?.id && dataReceived">
     {{currentPartecipante?.nome}} {{currentPartecipante?.cognome}} - <span class="fw-semi-bold">Profilo</span>
 </h1>
 
