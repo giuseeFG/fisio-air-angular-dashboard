@@ -1,0 +1,60 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">Discipline</li>
+    <li class="active breadcrumb-item">Tutti</li>
+</ol>
+
+<h1 class="page-title">Discipline</h1>
+
+<button class="btn btn-primary" routerLink="/nuova-disciplina">Nuova disciplina</button>
+
+<div class="row margin-top">
+    <div class="col-12">
+        <section>
+            <div class="float-right">
+                <div class="input-group input-group-rounded">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="fa fa-search"></i>
+                        </span>
+                    </span>
+                    <input class="form-control" type="text" debounce [delay]="700"
+                           placeholder="Cerca professione..." [(ngModel)]="searchText">
+                </div>
+            </div>
+
+            <ngx-datatable class="table table-striped table-hover"
+                           [rows]="getFilteredItems()"
+                           [columnMode]="'flex'"
+                           [headerHeight]="50"
+                           [footerHeight]="50"
+                           [messages]="{emptyMessage:'Nessuna professione', totalMessage: getFilteredItems().length === 1 ? 'professione' : 'professioni'}"
+                           [rowHeight]="'auto'"
+                           [limit]="50">
+                <ngx-datatable-column [draggable]="false" name="professione" [sortable]="false" prop="professione"
+                                      [flexGrow]="3">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class="flex underlined-hover" style="align-items: center;"
+                             [routerLink]="row.codice">
+                            <div style="display: flex; flex-direction: column; margin-left: 5px;">
+                                <span class="fw-semi-bold underlined-hover">
+                                    {{row.professione}}
+                                </span>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [draggable]="false" [flexGrow]="3">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class="flex pull-right">
+                            <button class="btn btn-outline-danger no-border"
+                                    (click)="removeDisciplina(row)"
+                                    role="button">
+                                Rimuovi
+                            </button>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+            </ngx-datatable>
+        </section>
+    </div>
+</div>

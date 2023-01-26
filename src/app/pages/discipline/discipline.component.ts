@@ -1,18 +1,18 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {UtilsService} from '../../services/utils/utils.service';
 import {GraphQLService} from '../../services/graphQL/graphQL.service';
-import {GenericConfirmComponent} from '../../components/generic-confirm/generic-confirm.component';
 import {BsModalService} from 'ngx-bootstrap';
+import {GenericConfirmComponent} from '../../components/generic-confirm/generic-confirm.component';
 
 @Component({
-    selector: 'app-partecipanti',
-    templateUrl: './partecipanti.template.html',
+    selector: 'app-discipline',
+    templateUrl: './discipline.template.html',
     encapsulation: ViewEncapsulation.None,
-    styleUrls: ['./partecipanti.style.scss']
+    styleUrls: ['./discipline.style.scss']
 })
-export class PartecipantiComponent implements OnInit {
+export class DisciplineComponent implements OnInit {
     searchText = '';
-    partecipanti;
+    discipline;
 
     constructor(
         public utilsService: UtilsService,
@@ -23,31 +23,31 @@ export class PartecipantiComponent implements OnInit {
 
     async ngOnInit() {
         this.utilsService.loaderActive = true;
-        const data: any = await this.graphQLService.getAllGraphQL('fisio_partecipanti', 'id cod_fisc cognome created_at disciplina libprof_dip nome professione');
-        this.partecipanti = data?.data?.fisio_partecipanti;
+        const data: any = await this.graphQLService.getAllGraphQL('fisio_discipline', 'codice disciplina professione');
+        this.discipline = data?.data?.fisio_discipline;
         this.utilsService.loaderActive = false;
     }
 
     getFilteredItems() {
         if (!this.searchText?.trim()?.length) {
-            return this.partecipanti || [];
+            return this.discipline || [];
         }
-        return this.utilsService.searchFunction(this.partecipanti || [], this.searchText);
+        return this.utilsService.searchFunction(this.discipline || [], this.searchText);
     }
 
-    removeUser(row) {
+    removeDisciplina(row) {
         const bsModalRef = this.modalService.show(GenericConfirmComponent, {
             initialState: {
-                title: 'Rimuovi utente',
-                text: 'Confermi di voler disabilitare l\'utente?'
+                title: 'Rimuovi disciplina',
+                text: 'Confermi di voler disabilitare la disciplina?'
             }
         });
         bsModalRef.content.eventYes.subscribe(async res => {
             this.utilsService.loaderActive = true;
             const res1: any = await this.graphQLService.mutationDeleteGraphQL(
-                'delete_fisio_partecipanti',
-                'id',
-                row.id,
+                'delete_fisio_discipline',
+                'codice',
+                row.codice,
                 'Int'
             );
             this.utilsService.loaderActive = false;
@@ -55,9 +55,9 @@ export class PartecipantiComponent implements OnInit {
                 this.utilsService.showError();
                 return;
             }
-            if (res1?.data?.delete_fisio_partecipanti?.affected_rows) {
-                this.utilsService.showMessage('Il partecipante è stato correttamente rimosso.', 'Ok');
-                this.partecipanti = this.partecipanti.filter(user => user.id !== row.id);
+            if (res1?.data?.delete_fisio_discipline?.affected_rows) {
+                this.utilsService.showMessage('La disciplina è stata correttamente rimossa.', 'Ok');
+                this.discipline = this.discipline.filter(user => user.id !== row.id);
             } else {
                 this.utilsService.showError();
             }

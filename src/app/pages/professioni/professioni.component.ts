@@ -39,7 +39,7 @@ export class ProfessioniComponent implements OnInit {
         const bsModalRef = this.modalService.show(GenericConfirmComponent, {
             initialState: {
                 title: 'Rimuovi professione',
-                text: 'Confermi di voler disabilitare la professione??'
+                text: 'Confermi di voler disabilitare la professione?'
             }
         });
         bsModalRef.content.eventYes.subscribe(async res => {
@@ -50,13 +50,17 @@ export class ProfessioniComponent implements OnInit {
                 row.codice,
                 'Int'
             );
-            if (res1?.data?.delete_fisio_partecipanti?.affected_rows) {
+            this.utilsService.loaderActive = false;
+            if (res1?.errors) {
+                this.utilsService.showError();
+                return;
+            }
+            if (res1?.data?.delete_fisio_professioni?.affected_rows) {
                 this.utilsService.showMessage('La professione è stata correttamente rimossa.', 'Ok');
                 this.professioni = this.professioni.filter(user => user.id !== row.id);
             } else {
                 this.utilsService.showError();
             }
-            this.utilsService.loaderActive = false;
         });
     }
 }

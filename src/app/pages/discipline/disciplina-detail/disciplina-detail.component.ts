@@ -8,13 +8,13 @@ import {BsModalService} from 'ngx-bootstrap';
 import {GraphQLService} from '../../../services/graphQL/graphQL.service';
 
 @Component({
-    selector: 'partecipante-detail',
-    templateUrl: './partecipante-detail.template.html'
+    selector: 'disciplina-detail',
+    templateUrl: './disciplina-detail.template.html'
 })
-export class PartecipanteDetailComponent implements OnInit {
+export class DisciplinaDetailComponent implements OnInit {
     form: FormGroup;
     dataReceived = false;
-    currentPartecipante;
+    currentDisciplina;
 
     constructor(
         private fb: FormBuilder,
@@ -26,37 +26,34 @@ export class PartecipanteDetailComponent implements OnInit {
         private graphQLService: GraphQLService
     ) {
         this.route.params.subscribe(async params => {
-            let currentPartecipante;
-            if (params?.id) {
-                const data: any = await this.graphQLService.getSpecificGraphQL('fisio_partecipanti',
-                    'id cod_fisc cognome created_at disciplina libprof_dip nome professione',
-                    'id',
-                    params.id,
+            let currentDisciplina;
+            if (params?.codice) {
+                const data: any = await this.graphQLService.getSpecificGraphQL('fisio_discipline',
+                    'codice disciplina professione',
+                    'codice',
+                    params.codice,
                     'Int'
                 );
-                if (data?.data?.fisio_partecipanti) {
-                    currentPartecipante = data?.data?.fisio_partecipanti[0];
-                    this.currentPartecipante = currentPartecipante;
-                    if (!currentPartecipante) {
+                if (data?.data?.fisio_discipline) {
+                    currentDisciplina = data?.data?.fisio_discipline[0];
+                    this.currentDisciplina = currentDisciplina;
+                    console.log('currentDisciplina', this.currentDisciplina);
+                    if (!currentDisciplina) {
                         this.utilsService.goBack();
                         return;
                     }
                 }
             }
-            this.setForm(currentPartecipante);
+            this.setForm(currentDisciplina);
             this.dataReceived = true;
         });
     }
 
-    async setForm(currentPartecipante) {
+    async setForm(currentDisciplina) {
         this.form = this.fb.group({
-            id: [currentPartecipante?.id],
-            cod_fisc: [currentPartecipante?.cod_fisc],
-            nome: [currentPartecipante?.nome],
-            cognome: [currentPartecipante?.cognome],
-            disciplina: [currentPartecipante?.disciplina],
-            libprof_dip: [currentPartecipante?.libprof_dip],
-            professione: [currentPartecipante?.professione],
+            codice: [currentDisciplina?.codice],
+            professione: [currentDisciplina?.professione],
+            disciplina: [currentDisciplina?.disciplina],
         });
     }
 
@@ -66,30 +63,28 @@ export class PartecipanteDetailComponent implements OnInit {
     save() {
         const bsModalRef = this.modalService.show(GenericConfirmComponent, {
             initialState: {
-                title: this.form.value.id ? 'Aggiorna partecipante' : 'Crea partecipante',
-                text: `Confermi di voler ${this.form.value.id ? 'aggiornare' : 'creare'} il partecipante?`
+                title: this.form.value.id ? 'Aggiorna disciplina' : 'Crea disciplina',
+                text: `Confermi di voler ${this.form.value.id ? 'aggiornare' : 'creare'} la disciplina?`
             }
         });
         bsModalRef.content.eventYes.subscribe(async res => {
             this.utilsService.loaderActive = true;
 
             let res1: any;
-            if (this.currentPartecipante) {
+            if (this.currentDisciplina) {
                 const data = {...this.form.value};
                 res1 = await this.graphQLService.mutationUpdateGraphQL(
-                    'update_fisio_partecipanti',
-                    'fisio_partecipanti_set_input',
+                    'update_fisio_discipline',
+                    'fisio_discipline_set_input',
                     data,
-                    'id',
-                    this.form.value.id,
+                    'codice',
+                    this.form.value.codice,
                     'Int');
             } else {
-                const data = {...this.form.value};
-                delete data.id;
-                res1 = this.graphQLService.mutationInsertGraphQL(
-                    'insert_fisio_partecipanti',
-                    'fisio_partecipanti_insert_input',
-                    data);
+                res1 = await this.graphQLService.mutationInsertGraphQL(
+                    'insert_fisio_discipline',
+                    'fisio_discipline_insert_input',
+                    this.form.value);
             }
             this.utilsService.loaderActive = false;
             console.log(res1);
@@ -97,7 +92,7 @@ export class PartecipanteDetailComponent implements OnInit {
                 this.utilsService.showError();
                 return;
             }
-            if (res1?.update_fisio_partecipanti?.affected_rows === 0) {
+            if (res1?.update_fisio_discipline?.affected_rows === 0) {
                 this.utilsService.showError();
                 return;
             }

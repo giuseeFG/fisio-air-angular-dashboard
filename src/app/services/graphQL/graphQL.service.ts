@@ -103,7 +103,7 @@ mutation ($variables: ${inputType}!) {
 }
 `;
 
-        return await this.httpClient.post('https://fisioair.hasura.app/v1/graphql',
+        return await this.httpClient.post('https://fisioair.hasura.app/v1/graphql?' + operation,
             {query: mutation, variables: {variables}},
             {headers: {'Content-Type': 'application/json', 'x-hasura-admin-secret': environment.hasuraSecret}})
             .toPromise();

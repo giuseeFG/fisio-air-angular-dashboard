@@ -70,7 +70,7 @@ export class ProfessioneDetailComponent implements OnInit {
             this.utilsService.loaderActive = true;
 
             let res1: any;
-            if (this.form.value.id) {
+            if (this.currentProfessione) {
                 const data = {...this.form.value};
                 res1 = await this.graphQLService.mutationUpdateGraphQL(
                     'update_fisio_professioni',
@@ -80,12 +80,10 @@ export class ProfessioneDetailComponent implements OnInit {
                     this.form.value.codice,
                     'Int');
             } else {
-                const data = {...this.form.value};
-                delete data.id;
-                res1 = this.graphQLService.mutationInsertGraphQL(
+                res1 = await this.graphQLService.mutationInsertGraphQL(
                     'insert_fisio_professioni',
                     'fisio_professioni_insert_input',
-                    data);
+                    this.form.value);
             }
             this.utilsService.loaderActive = false;
             console.log(res1);

@@ -50,6 +50,21 @@ const routes: Routes = [
                 loadChildren: '../pages/professioni/professione-detail/professione-detail.module#ProfessioneDetailModule',
                 canActivate: [AppGuard]
             },
+            {
+                path: 'discipline',
+                loadChildren: '../pages/discipline/discipline.module#DisciplineModule',
+                canActivate: [AppGuard]
+            },
+            {
+                path: 'discipline/:codice',
+                loadChildren: '../pages/discipline/disciplina-detail/disciplina-detail.module#DisciplinaDetailModule',
+                canActivate: [AppGuard]
+            },
+            {
+                path: 'nuova-disciplina',
+                loadChildren: '../pages/discipline/disciplina-detail/disciplina-detail.module#DisciplinaDetailModule',
+                canActivate: [AppGuard]
+            },
         ]
     }
 ];
