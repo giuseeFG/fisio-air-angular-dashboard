@@ -10,5 +10,6 @@ export const environment = {
         appId: '1:1046668701009:web:4ca4f2fedb148704183770'
     },
     basePath: 'https://fisioair.hasura.app/api/rest',
-    firebaseBasePath: 'https://europe-west3-tremti-n.cloudfunctions.net'
+    firebaseBasePath: 'https://europe-west3-tremti-n.cloudfunctions.net',
+    hasuraSecret: 'ypxo8CN93eqe013kjTIisoG5t928BnvAes4Xi4ijpgumKA7be2mUhZD3KfiFp2ia'
 };
