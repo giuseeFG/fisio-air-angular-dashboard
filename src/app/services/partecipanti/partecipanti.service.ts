@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {UtilsService} from '../utils/utils.service';
 import {LoginService} from '../login/login.service';
@@ -27,27 +27,98 @@ export class PartecipantiService {
     }
 
     async updatePartecipante(data) {
-        const headers = new HttpHeaders()
-            .set('Content-Type', 'application/json')
-            .set('x-hasura-admin-secret', environment.hasuraSecret);
-        return await this.httpClient.patch(environment.basePath + '/partecipanti/' + data.id,
-            {data},
-            {headers}).toPromise();
+        return await this.httpClient.patch(environment.basePath + '/partecipanti/' + data.id, {data}, {
+            headers: {
+                'Content-Type': 'application/vnd.pgrst.object+json',
+                'x-hasura-admin-secret': environment.hasuraSecret
+            }
+        }).toPromise();
     }
 
     getPartecipanti() {
         return this.httpClient.get(environment.basePath + '/partecipanti', {
             headers: {
                 'Content-Type': 'application/vnd.pgrst.object+json',
-                'x-hasura-admin-secret': 'ypxo8CN93eqe013kjTIisoG5t928BnvAes4Xi4ijpgumKA7be2mUhZD3KfiFp2ia'
+                'x-hasura-admin-secret': environment.hasuraSecret
             }
         }).toPromise();
     }
 
     async getPartecipante(id) {
-        const headers = new HttpHeaders()
-            .set('Content-Type', 'application/json')
-            .set('x-hasura-admin-secret', environment.hasuraSecret);
-        return await this.httpClient.get(environment.basePath + '/partecipanti/' + id, {headers}).toPromise();
+        return await this.httpClient.get(environment.basePath + '/partecipanti/' + id, {
+            headers: {
+                'Content-Type': 'application/vnd.pgrst.object+json',
+                'x-hasura-admin-secret': environment.hasuraSecret
+            }
+        }).toPromise();
+    }
+
+    async mutationUpdateGraphQL(operation, inputType, variables, whereItem, whereValue, whereType) {
+        const mutation = `
+mutation ($variables: ${inputType}!, $whereValue: ${whereType}!) {
+    ${operation}(where: {${whereItem}: {_eq: $whereValue}}, _set: $variables) {
+        affected_rows
+    }
+}
+`;
+
+        return await this.httpClient.post('https://fisioair.hasura.app/v1/graphql',
+            {query: mutation, variables: {variables, whereValue}},
+            {headers: {'Content-Type': 'application/json', 'x-hasura-admin-secret': environment.hasuraSecret}})
+            .toPromise();
+    }
+
+    async mutationInsertGraphQL(operation, inputType, variables) {
+        const mutation = `
+mutation ($variables: ${inputType}!) {
+    ${operation}(objects: [$variables]) {
+        affected_rows
+    }
+}
+`;
+
+        return await this.httpClient.post('https://fisioair.hasura.app/v1/graphql',
+            {query: mutation, variables: {variables}},
+            {headers: {'Content-Type': 'application/json', 'x-hasura-admin-secret': environment.hasuraSecret}})
+            .toPromise();
+    }
+
+    async getAllGraphQL(table, params) {
+        const query = `
+query {
+  ${table} {
+    ${params}
+  }
+}
+`;
+        return await this.httpClient.post('https://fisioair.hasura.app/v1/graphql', {
+                query
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/vnd.pgrst.object+json',
+                    'x-hasura-admin-secret': environment.hasuraSecret
+                }
+            }
+        ).toPromise();
+    }
+
+    async getSpecificGraphQL(table, params, whereItem, whereValue, whereType) {
+        const query = `
+query myQuery($whereValue: ${whereType}!) {
+  ${table}(where: {${whereItem}: {_eq: $whereValue}}) {
+    ${params}
+  }
+}
+`;
+        return await this.httpClient.post('https://fisioair.hasura.app/v1/graphql',
+            {query, variables: {whereValue}},
+            {
+                headers: {
+                    'Content-Type': 'application/vnd.pgrst.object+json',
+                    'x-hasura-admin-secret': environment.hasuraSecret
+                }
+            }
+        ).toPromise();
     }
 }

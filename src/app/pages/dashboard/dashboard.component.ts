@@ -21,6 +21,28 @@ export class DashboardComponent implements OnInit {
             this.partecipantiService.getPartecipanti(),
         ]);
         this.partecipanti = data[0].fisio_partecipanti;
+        // this.partecipantiService.getAllGraphQL('fisio_partecipanti', 'id');
+
+        this.partecipantiService.getSpecificGraphQL('fisio_partecipanti',
+            'id cod_fisc cognome created_at disciplina libprof_dip nome professione',
+            'id',
+            63,
+            'Int'
+        );
+
+        // this.partecipantiService.mutationInsertGraphQL(
+        //     'insert_fisio_partecipanti',
+        //     'fisio_partecipanti_insert_input',
+        //     {nome: 'ciao2', cod_fisc: 'ciaone2'});
+
+        // this.partecipantiService.mutationUpdateGraphQL(
+        //     'update_fisio_partecipanti',
+        //     'fisio_partecipanti_set_input',
+        //     {nome: 'ciaone2'},
+        //     'cod_fisc',
+        //     'ciaone',
+        //     'String');
+
         this.fetchingData = false;
     }
 }
