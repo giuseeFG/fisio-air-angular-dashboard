@@ -29,11 +29,11 @@ export class PartecipanteDetailComponent implements OnInit {
     ) {
         this.route.params.subscribe(async params => {
             let currentPartecipante;
+            const discData: any = await this.graphQLService.getAllGraphQL('fisio_discipline', 'codice professione', 'professione', 'asc');
+            this.discipline = discData.data.fisio_discipline;
+            const profData: any = await this.graphQLService.getAllGraphQL('fisio_professioni', 'codice professione', 'professione', 'asc');
+            this.professioni = profData.data.fisio_professioni;
             if (params?.id) {
-                const discData: any = await this.graphQLService.getAllGraphQL('fisio_discipline', 'codice professione', 'professione', 'asc');
-                this.discipline = discData.data.fisio_discipline;
-                const profData: any = await this.graphQLService.getAllGraphQL('fisio_professioni', 'codice professione', 'professione', 'asc');
-                this.professioni = profData.data.fisio_professioni;
                 const data: any = await this.graphQLService.getSpecificGraphQL('fisio_partecipanti',
                     'id cod_fisc cognome created_at disciplina libprof_dip nome professione',
                     'id',

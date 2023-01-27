@@ -30,7 +30,7 @@
                            [messages]="{emptyMessage:'Nessun partecipante', totalMessage: getFilteredItems().length === 1 ? 'partecipante' : 'partecipanti'}"
                            [rowHeight]="'auto'"
                            [limit]="50">
-                <ngx-datatable-column [draggable]="false" name="nome" [sortable]="false" prop="last_name"
+                <ngx-datatable-column [draggable]="false" name="nome" prop="nome"
                                       [width]="250" [flexGrow]="3">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div class="flex underlined-hover" style="align-items: center;"
@@ -43,19 +43,22 @@
                         </div>
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column [draggable]="false" name="disciplina" [sortable]="false" prop="disciplina"
+                <ngx-datatable-column [draggable]="false" name="disciplina"
+                                      prop="discipline_detail.professione"
                                       [flexGrow]="3">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        {{row.disciplina}}
+                        {{row.discipline_detail?.professione}}
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column [draggable]="false" name="professione" [sortable]="false" prop="professione"
+                <ngx-datatable-column [draggable]="false" name="professione"
+                                      prop="professione_detail.professione"
                                       [flexGrow]="3">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        {{row.professione}}
+                        {{row.professione_detail?.professione}}
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column [draggable]="false" name="tipologia contratto" [sortable]="false" prop="libprof_dip"
+                <ngx-datatable-column [draggable]="false" name="tipologia contratto"
+                                      prop="libprof_dip"
                                       [flexGrow]="3">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         {{row.libprof_dip === 'C' ? 'Convenzionato' : row.libprof_dip === 'L' ? 'Libero professionista' : row.libprof_dip === 'D' ? 'Dipendente' : '-'}}
