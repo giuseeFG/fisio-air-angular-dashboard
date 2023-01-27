@@ -17,7 +17,7 @@
                           <i class="fa fa-search"></i>
                         </span>
                     </span>
-                    <input class="form-control" type="text" debounce [delay]="700"
+                    <input class="form-control" type="text"
                            placeholder="Cerca partecipante..." [(ngModel)]="searchText">
                 </div>
             </div>
@@ -43,13 +43,19 @@
                         </div>
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column [draggable]="false" name="codice fiscale" [sortable]="false" prop="created_at"
+                <ngx-datatable-column [draggable]="false" name="disciplina" [sortable]="false" prop="disciplina"
                                       [flexGrow]="3">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        {{row.cod_fisc}}
+                        {{row.disciplina}}
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column [draggable]="false" name="tipo contratto" [sortable]="false" prop="libprof_dip"
+                <ngx-datatable-column [draggable]="false" name="professione" [sortable]="false" prop="professione"
+                                      [flexGrow]="3">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.professione}}
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [draggable]="false" name="tipologia contratto" [sortable]="false" prop="libprof_dip"
                                       [flexGrow]="3">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         {{row.libprof_dip === 'C' ? 'Convenzionato' : row.libprof_dip === 'L' ? 'Libero professionista' : row.libprof_dip === 'D' ? 'Dipendente' : '-'}}

@@ -9,6 +9,18 @@
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="pb-5 h-100">
                         <widget class="h-100 mb-0 underlined-hover"
+                                [title]="'Relatori'"
+                                routerLink="/relatori"
+                                [fetchingData]="fetchingData">
+                            <div class="d-flex justify-content-between align-items-center mb-lg">
+                                <h2>{{relatori?.length}}</h2>
+                            </div>
+                        </widget>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="pb-5 h-100">
+                        <widget class="h-100 mb-0 underlined-hover"
                                 [title]="'Partecipanti'"
                                 routerLink="/partecipanti"
                                 [fetchingData]="fetchingData">

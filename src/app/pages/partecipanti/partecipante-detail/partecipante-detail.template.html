@@ -31,18 +31,29 @@
         </div>
         <div class="col-6 form-group">
             <h4>Disciplina</h4>
-            <input formControlName="disciplina"
+            <select formControlName="disciplina"
                    class="form-control input-transparent">
+                <option [value]="disciplina.codice" *ngFor="let disciplina of discipline">
+                    {{disciplina.professione}}
+                </option>
+            </select>
         </div>
         <div class="col-6 form-group">
             <h4>Tipologia contratto</h4>
-            <input formControlName="libprof_dip"
-                   class="form-control input-transparent">
+            <select formControlName="libprof_dip" class="form-control input-transparent">
+                <option value="C">Convenzionato</option>
+                <option value="L">Libero professionista</option>
+                <option value="D">Dipendente</option>
+            </select>
         </div>
         <div class="col-6 form-group">
             <h4>Professione</h4>
-            <input formControlName="professione"
-                   class="form-control input-transparent">
+            <select formControlName="professione"
+                    class="form-control input-transparent">
+                <option [value]="professione.codice" *ngFor="let professione of professioni">
+                    {{professione.professione}}
+                </option>
+            </select>
         </div>
     </div>
 </section>

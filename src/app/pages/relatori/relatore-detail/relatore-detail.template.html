@@ -1,0 +1,74 @@
+<ol class="breadcrumb" *ngIf="dataReceived">
+    <li class="breadcrumb-item">Relatore</li>
+    <li class="active breadcrumb-item"
+        *ngIf="currentRelatore">{{currentRelatore?.name}}</li>
+    <li class="active breadcrumb-item" *ngIf="!currentRelatore">Nuovo relatore</li>
+</ol>
+
+<h1 class="page-title" *ngIf="currentRelatore?.disciplina && dataReceived">
+    {{currentRelatore?.disciplina}}
+</h1>
+
+<section class="widget" *ngIf="form && dataReceived && relatoriForm">
+    <div class="row" [formGroup]="form">
+        <div class="col-6 form-group">
+            <h4>Nome</h4>
+            <input formControlName="name"
+                   placeholder="Inserisci il nome"
+                   class="form-control input-transparent">
+            <span *ngIf="form?.get('name')?.touched && form?.get('name')?.errors?.required"
+                  class="text text-danger mt-1">Campo obbligatorio</span>
+        </div>
+        <div class="col-6 form-group">
+            <h4>Email</h4>
+            <input formControlName="email"
+                   placeholder="Inserisci l'email"
+                   type="email"
+                   class="form-control input-transparent">
+        </div>
+        <div class="col-6 form-group">
+            <h4>Codice Fiscale</h4>
+            <input formControlName="cod_fisc"
+                   placeholder="Inserisci il codice fiscale"
+                   class="form-control input-transparent">
+            <span *ngIf="form?.get('cod_fisc')?.touched && form?.get('cod_fisc')?.errors?.required"
+                  class="text text-danger mt-1">Campo obbligatorio</span>
+        </div>
+        <div class="col-6 form-group">
+            <h4>Cellulare</h4>
+            <input formControlName="mobile"
+                   placeholder="Inserisci il cellulare"
+                   type="phone"
+                   class="form-control input-transparent">
+        </div>
+    </div>
+    <div class="row" [formGroup]="relatoriForm">
+        <div class="col-6 form-group">
+            <h4>Struttura</h4>
+            <input formControlName="struttura"
+                   placeholder="Inserisci il nome della struttura"
+                   class="form-control input-transparent">
+        </div>
+        <div class="col-6 form-group">
+            <h4>Disciplina</h4>
+            <input formControlName="disciplina"
+                   placeholder="Inserisci il nome della disciplina"
+                   class="form-control input-transparent">
+        </div>
+    </div>
+</section>
+
+<section class="widget bottom-widget" *ngIf="dataReceived">
+    <div class="pull-right">
+        <button class="btn btn-outline-primary width-100"
+                role="button"
+                (click)="utilsService.goBack()">
+            Indietro
+        </button>
+        <button class="btn btn-success width-100 ml-6"
+                role="button"
+                (click)="save()">
+            Salva
+        </button>
+    </div>
+</section>

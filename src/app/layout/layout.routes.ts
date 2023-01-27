@@ -65,6 +65,21 @@ const routes: Routes = [
                 loadChildren: '../pages/discipline/disciplina-detail/disciplina-detail.module#DisciplinaDetailModule',
                 canActivate: [AppGuard]
             },
+            {
+                path: 'relatori',
+                loadChildren: '../pages/relatori/relatori.module#RelatoriModule',
+                canActivate: [AppGuard]
+            },
+            {
+                path: 'relatori/:id',
+                loadChildren: '../pages/relatori/relatore-detail/relatore-detail.module#RelatoreDetailModule',
+                canActivate: [AppGuard]
+            },
+            {
+                path: 'nuovo-relatore',
+                loadChildren: '../pages/relatori/relatore-detail/relatore-detail.module#RelatoreDetailModule',
+                canActivate: [AppGuard]
+            },
         ]
     }
 ];

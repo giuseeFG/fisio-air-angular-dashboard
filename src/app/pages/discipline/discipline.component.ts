@@ -23,7 +23,7 @@ export class DisciplineComponent implements OnInit {
 
     async ngOnInit() {
         this.utilsService.loaderActive = true;
-        const data: any = await this.graphQLService.getAllGraphQL('fisio_discipline', 'codice disciplina professione');
+        const data: any = await this.graphQLService.getAllGraphQL('fisio_discipline', 'codice disciplina professione', 'professione', 'asc');
         this.discipline = data?.data?.fisio_discipline;
         this.utilsService.loaderActive = false;
     }

@@ -113,11 +113,17 @@ mutation ($variables: ${inputType}!) {
      *
      * @param table es: "fisio_partecipanti"
      * @param params es: "id cod_fisc cognome created_at disciplina libprof_dip nome professione"
+     * @param orderBy es: "disciplina"
+     * @param orderDir es: "asc" | "desc"
      */
-    async getAllGraphQL(table, params) {
+    async getAllGraphQL(table, params, orderBy?, orderDir?) {
+        let orderByString = ``;
+        if (orderBy) {
+            orderByString = `(order_by: { ${orderBy}: ${orderDir}})`;
+        }
         const query = `
 query {
-  ${table} {
+  ${table}${orderByString} {
     ${params}
   }
 }
@@ -151,6 +157,18 @@ query myQuery($whereValue: ${whereType}!) {
 `;
         return await this.httpClient.post('https://fisioair.hasura.app/v1/graphql?' + table,
             {query, variables: {whereValue}},
+            {
+                headers: {
+                    'Content-Type': 'application/vnd.pgrst.object+json',
+                    'x-hasura-admin-secret': environment.hasuraSecret
+                }
+            }
+        ).toPromise();
+    }
+
+    async getCustomGraphQL(query) {
+        return await this.httpClient.post('https://fisioair.hasura.app/v1/graphql',
+            {query},
             {
                 headers: {
                     'Content-Type': 'application/vnd.pgrst.object+json',

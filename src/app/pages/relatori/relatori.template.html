@@ -1,11 +1,11 @@
 <ol class="breadcrumb">
-    <li class="breadcrumb-item">Discipline</li>
+    <li class="breadcrumb-item">Relatori</li>
     <li class="active breadcrumb-item">Tutti</li>
 </ol>
 
-<h1 class="page-title">Discipline</h1>
+<h1 class="page-title">Relatori</h1>
 
-<button class="btn btn-primary" routerLink="/nuova-disciplina">Nuova disciplina</button>
+<button class="btn btn-primary" routerLink="/nuovo-relatore">Nuovo relatore</button>
 
 <div class="row margin-top">
     <div class="col-12">
@@ -18,7 +18,7 @@
                         </span>
                     </span>
                     <input class="form-control" type="text"
-                           placeholder="Cerca professione..." [(ngModel)]="searchText">
+                           placeholder="Cerca relatore..." [(ngModel)]="searchText">
                 </div>
             </div>
 
@@ -27,27 +27,39 @@
                            [columnMode]="'flex'"
                            [headerHeight]="50"
                            [footerHeight]="50"
-                           [messages]="{emptyMessage:'Nessuna disciplina', totalMessage: getFilteredItems().length === 1 ? 'disciplina' : 'discipline'}"
+                           [messages]="{emptyMessage:'Nessun relatore', totalMessage: getFilteredItems().length === 1 ? 'relatore' : 'relatori'}"
                            [rowHeight]="'auto'"
                            [limit]="50">
-                <ngx-datatable-column [draggable]="false" name="professione" [sortable]="false" prop="professione"
+                <ngx-datatable-column [draggable]="false" name="nome" [sortable]="false" prop="name"
                                       [flexGrow]="3">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        <div class="flex underlined-hover" style="align-items: center;"
-                             [routerLink]="row.codice">
                             <div style="display: flex; flex-direction: column; margin-left: 5px;">
-                                <span class="fw-semi-bold underlined-hover">
-                                    {{row.professione}}
+                                <span class="fw-semi-bold underlined-hover" [routerLink]="row.id">
+                                    {{row.name}}
                                 </span>
+                                <span>{{row.email}}</span>
+                                <span>{{row.mobile}}</span>
                             </div>
-                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [draggable]="false" name="disciplina" [sortable]="false"
+                                      prop="relatori.disciplina"
+                                      [flexGrow]="3">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.relatori?.disciplina}}
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [draggable]="false" name="struttura" [sortable]="false" prop="relatori.struttura"
+                                      [flexGrow]="3">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.relatori?.struttura}}
                     </ng-template>
                 </ngx-datatable-column>
                 <ngx-datatable-column [draggable]="false" [flexGrow]="3">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div class="flex pull-right">
                             <button class="btn btn-outline-danger no-border"
-                                    (click)="removeDisciplina(row)"
+                                    (click)="removeRelatore(row)"
                                     role="button">
                                 Rimuovi
                             </button>
