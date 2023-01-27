@@ -1,6 +1,6 @@
 {
   "name": "FisioAir",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Dashboard ADMIN di FisioAir",
   "scripts": {
     "ng": "ng",
