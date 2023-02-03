@@ -21,34 +21,15 @@ export class DashboardComponent implements OnInit {
 
     async ngOnInit() {
         const data: any = await Promise.all([
-            this.graphQLService.getAllGraphQL('fisio_partecipanti', 'id cod_fisc cognome created_at disciplina libprof_dip nome professione', 'created_at', 'asv'),
-            this.graphQLService.getAllGraphQL('fisio_professioni', 'codice professione'),
-            this.graphQLService.getAllGraphQL('fisio_discipline', 'codice professione'),
-            this.graphQLService.getCustomGraphQL(`query MyQuery {
-              fisio_relatori_anag {
-                name
-                struttura
-                provenienza
-                mobile
-                id
-                email
-                disciplina
-                created_at
-                cod_fisc
-                relatori {
-                  struttura
-                  name
-                  id
-                  disciplina
-                  created_at
-                }
-              }
-            }`),
+            this.graphQLService.getFisioPartecipanti(),
+            this.graphQLService.getFisioProfessioni(),
+            this.graphQLService.getFisioDiscipline(),
+            this.graphQLService.getFisioRelatori(),
         ]);
-        this.partecipanti = data[0].data.fisio_partecipanti;
-        this.professioni = data[1].data.fisio_professioni;
-        this.discipline = data[2].data.fisio_discipline;
-        this.relatori = data[3].data.fisio_relatori_anag;
+        this.partecipanti = data[0].fisio_partecipanti;
+        this.professioni = data[1].fisio_professioni;
+        this.discipline = data[2].fisio_discipline;
+        this.relatori = data[3].fisio_relatori_anag;
 
         this.fetchingData = false;
     }

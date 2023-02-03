@@ -28,14 +28,9 @@ export class ProfessioneDetailComponent implements OnInit {
         this.route.params.subscribe(async params => {
             let currentProfessione;
             if (params?.codice) {
-                const data: any = await this.graphQLService.getSpecificGraphQL('fisio_professioni',
-                    'codice professione',
-                    'codice',
-                    params.codice,
-                    'Int'
-                );
-                if (data?.data?.fisio_professioni) {
-                    currentProfessione = data?.data?.fisio_professioni[0];
+                const data: any = await this.graphQLService.getFisioProfessioni();
+                if (data?.fisio_professioni) {
+                    currentProfessione = data?.fisio_professioni[0];
                     this.currentProfessione = currentProfessione;
                     console.log('currentProfessione', this.currentProfessione);
                     if (!currentProfessione) {

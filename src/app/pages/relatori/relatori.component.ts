@@ -23,27 +23,8 @@ export class RelatoriComponent implements OnInit {
 
     async ngOnInit() {
         this.utilsService.loaderActive = true;
-        const data: any = await this.graphQLService.getCustomGraphQL(`query MyQuery {
-              fisio_relatori_anag {
-                name
-                struttura
-                provenienza
-                mobile
-                id
-                email
-                disciplina
-                created_at
-                cod_fisc
-                relatori {
-                  struttura
-                  name
-                  id
-                  disciplina
-                  created_at
-                }
-              }
-            }`);
-        this.relatori = data?.data?.fisio_relatori_anag;
+        const data: any = await this.graphQLService.getFisioRelatori();
+        this.relatori = data?.fisio_relatori_anag;
         console.log(this.relatori);
         this.utilsService.loaderActive = false;
     }
@@ -64,26 +45,13 @@ export class RelatoriComponent implements OnInit {
         });
         bsModalRef.content.eventYes.subscribe(async res => {
             this.utilsService.loaderActive = true;
-            const res1: any = await this.graphQLService.mutationDeleteGraphQL(
-                'delete_fisio_relatori_anag',
-                'id',
-                row.id,
-                'Int'
-            );
-            if (row.relatori) {
-                await this.graphQLService.mutationDeleteGraphQL(
-                    'delete_fisio_relatori_to_prov',
-                    'id',
-                    row.relatori.id,
-                    'Int'
-                );
-            }
+            const res1: any = await this.graphQLService.deleteRelatore(row.id);
             this.utilsService.loaderActive = false;
             if (res1?.errors) {
                 this.utilsService.showError();
                 return;
             }
-            if (res1?.data?.delete_fisio_relatori_anag?.affected_rows) {
+            if (res1?.delete_fisio_relatori_anag?.affected_rows) {
                 this.utilsService.showMessage('La professione è stata correttamente rimossa.', 'Ok');
                 this.relatori = this.relatori.filter(user => user.id !== row.id);
             } else {

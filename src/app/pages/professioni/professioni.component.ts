@@ -23,8 +23,8 @@ export class ProfessioniComponent implements OnInit {
 
     async ngOnInit() {
         this.utilsService.loaderActive = true;
-        const data: any = await this.graphQLService.getAllGraphQL('fisio_professioni', 'codice professione', 'professione', 'asc');
-        this.professioni = data?.data?.fisio_professioni;
+        const data: any = await this.graphQLService.getFisioProfessioni();
+        this.professioni = data?.fisio_professioni;
         this.utilsService.loaderActive = false;
     }
 

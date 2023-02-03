@@ -33,26 +33,31 @@
                 <ngx-datatable-column [draggable]="false" name="nome" [sortable]="false" prop="name"
                                       [flexGrow]="3">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                            <div style="display: flex; flex-direction: column; margin-left: 5px;">
+                        <div style="display: flex; flex-direction: column; margin-left: 5px;">
                                 <span class="fw-semi-bold underlined-hover" [routerLink]="row.id">
                                     {{row.name}}
                                 </span>
-                                <span>{{row.email}}</span>
-                                <span>{{row.mobile}}</span>
-                            </div>
+                            <span>{{row.email}}</span>
+                            <span>{{row.mobile}}</span>
+                        </div>
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column [draggable]="false" name="disciplina" [sortable]="false"
-                                      prop="relatori.disciplina"
+                <ngx-datatable-column [draggable]="false"
+                                      name="disciplina"
+                                      [sortable]="false"
+                                      prop="disciplina"
                                       [flexGrow]="3">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        {{row.relatori?.disciplina}}
+                        {{row.disciplina}}
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column [draggable]="false" name="struttura" [sortable]="false" prop="relatori.struttura"
+                <ngx-datatable-column [draggable]="false"
+                                      name="struttura"
+                                      [sortable]="false"
+                                      prop="struttura"
                                       [flexGrow]="3">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        {{row.relatori?.struttura}}
+                        {{row.struttura}}
                     </ng-template>
                 </ngx-datatable-column>
                 <ngx-datatable-column [draggable]="false" [flexGrow]="3">

@@ -28,14 +28,9 @@ export class DisciplinaDetailComponent implements OnInit {
         this.route.params.subscribe(async params => {
             let currentDisciplina;
             if (params?.codice) {
-                const data: any = await this.graphQLService.getSpecificGraphQL('fisio_discipline',
-                    'codice disciplina professione',
-                    'codice',
-                    params.codice,
-                    'Int'
-                );
-                if (data?.data?.fisio_discipline) {
-                    currentDisciplina = data?.data?.fisio_discipline[0];
+                const data: any = await this.graphQLService.getDisciplina(params.codice);
+                if (data?.fisio_discipline) {
+                    currentDisciplina = data?.fisio_discipline[0];
                     this.currentDisciplina = currentDisciplina;
                     console.log('currentDisciplina', this.currentDisciplina);
                     if (!currentDisciplina) {
@@ -72,19 +67,9 @@ export class DisciplinaDetailComponent implements OnInit {
 
             let res1: any;
             if (this.currentDisciplina) {
-                const data = {...this.form.value};
-                res1 = await this.graphQLService.mutationUpdateGraphQL(
-                    'update_fisio_discipline',
-                    'fisio_discipline_set_input',
-                    data,
-                    'codice',
-                    this.form.value.codice,
-                    'Int');
+                res1 = await this.graphQLService.updateDisciplina(this.form.value.codice, this.form.value);
             } else {
-                res1 = await this.graphQLService.mutationInsertGraphQL(
-                    'insert_fisio_discipline',
-                    'fisio_discipline_insert_input',
-                    this.form.value);
+                res1 = await this.graphQLService.insertDisciplina(this.form.value);
             }
             this.utilsService.loaderActive = false;
             console.log(res1);

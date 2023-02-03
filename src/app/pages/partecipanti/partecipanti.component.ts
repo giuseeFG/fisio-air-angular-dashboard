@@ -23,28 +23,8 @@ export class PartecipantiComponent implements OnInit {
 
     async ngOnInit() {
         this.utilsService.loaderActive = true;
-        const data: any = await this.graphQLService.getCustomGraphQL(`query MyQuery {
-          fisio_partecipanti {
-            cod_fisc
-            cognome
-            created_at
-            disciplina
-            id
-            libprof_dip
-            nome
-            professione
-            professione_detail {
-              codice
-              professione
-            }
-            discipline_detail {
-              codice
-              disciplina
-              professione
-            }
-          }
-        }`);
-        this.partecipanti = data?.data?.fisio_partecipanti;
+        const data: any = await this.graphQLService.getFisioPartecipanti();
+        this.partecipanti = data?.fisio_partecipanti;
         this.utilsService.loaderActive = false;
     }
 

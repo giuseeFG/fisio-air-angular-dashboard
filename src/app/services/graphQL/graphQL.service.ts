@@ -7,34 +7,6 @@ import {environment} from '../../../environments/environment';
 })
 
 export class GraphQLService {
-    // this.partecipantiService.getAllGraphQL('fisio_partecipanti', 'id');
-    //
-    // this.partecipantiService.getSpecificGraphQL('fisio_partecipanti',
-    //     'id cod_fisc cognome created_at disciplina libprof_dip nome professione',
-    //     'id',
-    //     63,
-    //     'Int'
-    // );
-    //
-    // this.partecipantiService.mutationInsertGraphQL(
-    //     'insert_fisio_partecipanti',
-    //     'fisio_partecipanti_insert_input',
-    //     {nome: 'ciao2', cod_fisc: 'ciaone2'});
-    //
-    // this.partecipantiService.mutationUpdateGraphQL(
-    //     'update_fisio_partecipanti',
-    //     'fisio_partecipanti_set_input',
-    //     {nome: 'ciaone2'},
-    //     'cod_fisc',
-    //     'ciaone',
-    //     'String');
-    //
-    // this.partecipantiService.mutationDeleteGraphQL(
-    //     'delete_fisio_partecipanti',
-    //     'id',
-    //     143,
-    //     'Int'
-    // );
 
     constructor(
         private httpClient: HttpClient,
@@ -109,72 +81,57 @@ mutation ($variables: ${inputType}!) {
             .toPromise();
     }
 
-    /**
-     *
-     * @param table es: "fisio_partecipanti"
-     * @param params es: "id cod_fisc cognome created_at disciplina libprof_dip nome professione"
-     * @param orderBy es: "disciplina"
-     * @param orderDir es: "asc" | "desc"
-     */
-    async getAllGraphQL(table, params, orderBy?, orderDir?) {
-        let orderByString = ``;
-        if (orderBy) {
-            orderByString = `(order_by: { ${orderBy}: ${orderDir}})`;
-        }
-        const query = `
-query {
-  ${table}${orderByString} {
-    ${params}
-  }
-}
-`;
-        return await this.httpClient.post('https://fisioair.hasura.app/v1/graphql?' + table, {
-                query
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/vnd.pgrst.object+json',
-                    'x-hasura-admin-secret': environment.hasuraSecret
-                }
-            }
-        ).toPromise();
+    async getFisioPartecipanti() {
+        return await this.httpClient.get('https://fisioair.hasura.app/api/rest/partecipanti').toPromise();
     }
 
-    /**
-     * @param table eg: "fisio_partecipanti"
-     * @param params eg: "id cod_fisc cognome created_at disciplina libprof_dip nome professione"
-     * @param whereItem eg: "id"
-     * @param whereValue es: 64
-     * @param whereType es: "Int"
-     */
-    async getSpecificGraphQL(table, params, whereItem, whereValue, whereType) {
-        const query = `
-query myQuery($whereValue: ${whereType}!) {
-  ${table}(where: {${whereItem}: {_eq: $whereValue}}) {
-    ${params}
-  }
-}
-`;
-        return await this.httpClient.post('https://fisioair.hasura.app/v1/graphql?' + table,
-            {query, variables: {whereValue}},
-            {
-                headers: {
-                    'Content-Type': 'application/vnd.pgrst.object+json',
-                    'x-hasura-admin-secret': environment.hasuraSecret
-                }
-            }
-        ).toPromise();
+    async getFisioProfessioni() {
+        return await this.httpClient.get('https://fisioair.hasura.app/api/rest/professioni').toPromise();
     }
 
-    async getCustomGraphQL(query) {
-        return await this.httpClient.post('https://fisioair.hasura.app/v1/graphql',
-            {query},
-            {
-                headers: {
-                    'Content-Type': 'application/vnd.pgrst.object+json',
-                    'x-hasura-admin-secret': environment.hasuraSecret
-                }
-            }
-        ).toPromise();
+    async getFisioDiscipline() {
+        return await this.httpClient.get('https://fisioair.hasura.app/api/rest/discipline').toPromise();
+    }
+
+    async getFisioRelatori() {
+        return await this.httpClient.get('https://fisioair.hasura.app/api/rest/relatori').toPromise();
+    }
+
+    async getFisioRelatore(id) {
+        return await this.httpClient.post('https://fisioair.hasura.app/api/rest/relatore', {
+            id
+        }).toPromise();
+    }
+
+    async updateRelatore(data) {
+        return await this.httpClient.post('https://fisioair.hasura.app/api/rest/updateRelatore', data).toPromise();
+    }
+
+    async insertRelatore(data) {
+        return await this.httpClient.post('https://fisioair.hasura.app/api/rest/insertRelatore', data).toPromise();
+    }
+
+    async deleteRelatore(id) {
+        return await this.httpClient.delete('https://fisioair.hasura.app/api/rest/deleteRelatore/' + id).toPromise();
+    }
+
+    async getDisciplina(codice) {
+        return await this.httpClient.get('https://fisioair.hasura.app/api/rest/disciplina/' + codice).toPromise();
+    }
+
+    async getPartecipante(id) {
+        return await this.httpClient.get('https://fisioair.hasura.app/api/rest/partecipante/' + id).toPromise();
+    }
+
+    async getDiscipline() {
+        return await this.httpClient.get('https://fisioair.hasura.app/api/rest/discipline').toPromise();
+    }
+
+    async updateDisciplina(codice, data) {
+        return await this.httpClient.post('https://fisioair.hasura.app/api/rest/updateDisciplina/' + codice, data).toPromise();
+    }
+
+    async insertDisciplina(data) {
+        return await this.httpClient.post('https://fisioair.hasura.app/api/rest/insertDisciplina', data).toPromise();
     }
 }

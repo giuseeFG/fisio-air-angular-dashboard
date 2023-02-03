@@ -15,6 +15,7 @@
             <h4>Codice</h4>
             <input formControlName="codice"
                    placeholder="Inserisci il codice"
+                   [readonly]="!!currentDisciplina"
                    class="form-control input-transparent">
         </div>
         <div class="col-6 form-group">

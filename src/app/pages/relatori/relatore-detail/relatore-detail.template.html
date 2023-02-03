@@ -5,11 +5,11 @@
     <li class="active breadcrumb-item" *ngIf="!currentRelatore">Nuovo relatore</li>
 </ol>
 
-<h1 class="page-title" *ngIf="currentRelatore?.disciplina && dataReceived">
-    {{currentRelatore?.disciplina}}
+<h1 class="page-title" *ngIf="dataReceived">
+    {{currentRelatore?.name}}
 </h1>
 
-<section class="widget" *ngIf="form && dataReceived && relatoriForm">
+<section class="widget" *ngIf="form && dataReceived">
     <div class="row" [formGroup]="form">
         <div class="col-6 form-group">
             <h4>Nome</h4>
@@ -41,8 +41,6 @@
                    type="phone"
                    class="form-control input-transparent">
         </div>
-    </div>
-    <div class="row" [formGroup]="relatoriForm">
         <div class="col-6 form-group">
             <h4>Struttura</h4>
             <input formControlName="struttura"
@@ -53,6 +51,12 @@
             <h4>Disciplina</h4>
             <input formControlName="disciplina"
                    placeholder="Inserisci il nome della disciplina"
+                   class="form-control input-transparent">
+        </div>
+        <div class="col-6 form-group">
+            <h4>Provenienza</h4>
+            <input formControlName="provenienza"
+                   placeholder="Inserisci la provenienza"
                    class="form-control input-transparent">
         </div>
     </div>
