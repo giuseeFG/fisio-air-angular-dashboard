@@ -11,16 +11,6 @@ const routes: Routes = [
                 canActivate: [AppGuard]
             },
             {
-                path: 'users',
-                loadChildren: '../pages/users/users.module#UsersModule',
-                canActivate: [AppGuard]
-            },
-            {
-                path: 'users/:id',
-                loadChildren: '../pages/users/user-detail/user-detail.module#UserDetailModule',
-                canActivate: [AppGuard]
-            },
-            {
                 path: 'nuovo-partecipante',
                 loadChildren: '../pages/partecipanti/partecipante-detail/partecipante-detail.module#PartecipanteDetailModule',
                 canActivate: [AppGuard]

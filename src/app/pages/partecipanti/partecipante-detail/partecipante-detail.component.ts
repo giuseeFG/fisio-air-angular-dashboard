@@ -5,7 +5,9 @@ import {LoginService} from '../../../services/login/login.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {GenericConfirmComponent} from '../../../components/generic-confirm/generic-confirm.component';
 import {BsModalService} from 'ngx-bootstrap';
-import {GraphQLService} from '../../../services/graphQL/graphQL.service';
+import {PartecipantiService} from '../../../services/partecipanti/partecipanti.service';
+import {ProfessioniService} from '../../../services/professioni/professioni.service';
+import {DisciplineService} from '../../../services/discipline/discipline.service';
 
 @Component({
     selector: 'partecipante-detail',
@@ -25,16 +27,18 @@ export class PartecipanteDetailComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private modalService: BsModalService,
-        private graphQLService: GraphQLService
+        private partecipantiService: PartecipantiService,
+        private professioniService: ProfessioniService,
+        private disciplineService: DisciplineService
     ) {
         this.route.params.subscribe(async params => {
             let currentPartecipante;
-            const discData: any = await this.graphQLService.getDiscipline();
-            this.discipline = discData.data.fisio_discipline;
-            const profData: any = await this.graphQLService.getFisioProfessioni();
+            const discData: any = await this.disciplineService.getDiscipline();
+            this.discipline = discData.fisio_discipline;
+            const profData: any = await this.professioniService.getProfessioni();
             this.professioni = profData.fisio_professioni;
             if (params?.id) {
-                const data: any = await this.graphQLService.getPartecipante(params.id);
+                const data: any = await this.partecipantiService.getPartecipante(params.id);
                 if (data?.fisio_partecipanti) {
                     currentPartecipante = data?.fisio_partecipanti[0];
                     this.currentPartecipante = currentPartecipante;
@@ -76,21 +80,11 @@ export class PartecipanteDetailComponent implements OnInit {
 
             let res1: any;
             if (this.currentPartecipante) {
-                const data = {...this.form.value};
-                res1 = await this.graphQLService.mutationUpdateGraphQL(
-                    'update_fisio_partecipanti',
-                    'fisio_partecipanti_set_input',
-                    data,
-                    'id',
-                    this.form.value.id,
-                    'Int');
+                res1 = await this.partecipantiService.updatePartecipante(this.form.value);
             } else {
                 const data = {...this.form.value};
                 delete data.id;
-                res1 = this.graphQLService.mutationInsertGraphQL(
-                    'insert_fisio_partecipanti',
-                    'fisio_partecipanti_insert_input',
-                    data);
+                res1 = await this.partecipantiService.insertPartecipante(data);
             }
             this.utilsService.loaderActive = false;
             console.log(res1);

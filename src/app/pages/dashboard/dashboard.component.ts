@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {UtilsService} from '../../services/utils/utils.service';
-import {GraphQLService} from '../../services/graphQL/graphQL.service';
+import {PartecipantiService} from '../../services/partecipanti/partecipanti.service';
+import {ProfessioniService} from '../../services/professioni/professioni.service';
+import {DisciplineService} from '../../services/discipline/discipline.service';
+import {RelatoriService} from '../../services/relatori/relatori.service';
 
 @Component({
     selector: 'dashboard',
@@ -15,16 +18,19 @@ export class DashboardComponent implements OnInit {
 
     constructor(
         public utilsService: UtilsService,
-        private graphQLService: GraphQLService
+        private relatoriService: RelatoriService,
+        private partecipantiService: PartecipantiService,
+        private professioniService: ProfessioniService,
+        private disciplineService: DisciplineService
     ) {
     }
 
     async ngOnInit() {
         const data: any = await Promise.all([
-            this.graphQLService.getFisioPartecipanti(),
-            this.graphQLService.getFisioProfessioni(),
-            this.graphQLService.getFisioDiscipline(),
-            this.graphQLService.getFisioRelatori(),
+            this.partecipantiService.getPartecipanti(),
+            this.professioniService.getProfessioni(),
+            this.disciplineService.getDiscipline(),
+            this.relatoriService.getRelatori(),
         ]);
         this.partecipanti = data[0].fisio_partecipanti;
         this.professioni = data[1].fisio_professioni;

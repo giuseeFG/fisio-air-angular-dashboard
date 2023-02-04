@@ -14,6 +14,9 @@
         <div class="col-6 form-group">
             <h4>Codice</h4>
             <input formControlName="codice"
+                   type="number"
+                   (keypress)="utilsService.numberOnlyValidation($event)"
+                   (paste)="utilsService.numberOnlyValidation($event)"
                    placeholder="Inserisci il codice"
                    [readonly]="!!currentDisciplina"
                    class="form-control input-transparent">

@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {UtilsService} from '../../services/utils/utils.service';
-import {GraphQLService} from '../../services/graphQL/graphQL.service';
 import {BsModalService} from 'ngx-bootstrap';
 import {GenericConfirmComponent} from '../../components/generic-confirm/generic-confirm.component';
+import {DisciplineService} from '../../services/discipline/discipline.service';
 
 @Component({
     selector: 'app-discipline',
@@ -16,14 +16,14 @@ export class DisciplineComponent implements OnInit {
 
     constructor(
         public utilsService: UtilsService,
-        private graphQLService: GraphQLService,
+        private disciplineService: DisciplineService,
         private modalService: BsModalService
     ) {
     }
 
     async ngOnInit() {
         this.utilsService.loaderActive = true;
-        const data: any = await this.graphQLService.getDiscipline();
+        const data: any = await this.disciplineService.getDiscipline();
         this.discipline = data?.fisio_discipline;
         this.utilsService.loaderActive = false;
     }
@@ -44,20 +44,15 @@ export class DisciplineComponent implements OnInit {
         });
         bsModalRef.content.eventYes.subscribe(async res => {
             this.utilsService.loaderActive = true;
-            const res1: any = await this.graphQLService.mutationDeleteGraphQL(
-                'delete_fisio_discipline',
-                'codice',
-                row.codice,
-                'Int'
-            );
+            const res1: any = await this.disciplineService.deleteDisciplina(row.codice);
             this.utilsService.loaderActive = false;
             if (res1?.errors) {
                 this.utilsService.showError();
                 return;
             }
-            if (res1?.data?.delete_fisio_discipline?.affected_rows) {
+            if (res1?.delete_fisio_discipline?.affected_rows) {
                 this.utilsService.showMessage('La disciplina è stata correttamente rimossa.', 'Ok');
-                this.discipline = this.discipline.filter(user => user.id !== row.id);
+                this.discipline = this.discipline.filter(disciplina => disciplina.id !== row.id);
             } else {
                 this.utilsService.showError();
             }

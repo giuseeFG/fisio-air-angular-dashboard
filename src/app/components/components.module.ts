@@ -14,7 +14,6 @@ import {ImageCropperModule} from 'ngx-image-cropper';
 import {CKEditorModule} from 'ngx-ckeditor';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
-import {NewPageComponent} from './new-page/new-page.component';
 import {NewUploaderComponent} from './new-uploader/new-uploader.component';
 import {AngularFileUploaderModule} from 'angular-file-uploader';
 
@@ -22,7 +21,6 @@ import {AngularFileUploaderModule} from 'angular-file-uploader';
     declarations: [
         GenericConfirmComponent,
         ResizeImageComponent,
-        NewPageComponent,
         NewUploaderComponent
     ],
     imports: [
@@ -52,7 +50,6 @@ import {AngularFileUploaderModule} from 'angular-file-uploader';
     exports: [
         GenericConfirmComponent,
         ResizeImageComponent,
-        NewPageComponent,
         NewUploaderComponent
     ],
     entryComponents: [],

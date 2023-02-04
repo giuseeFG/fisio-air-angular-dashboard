@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {UtilsService} from '../../services/utils/utils.service';
-import {GraphQLService} from '../../services/graphQL/graphQL.service';
 import {BsModalService} from 'ngx-bootstrap';
 import {GenericConfirmComponent} from '../../components/generic-confirm/generic-confirm.component';
+import {RelatoriService} from '../../services/relatori/relatori.service';
 
 @Component({
     selector: 'app-relatori',
@@ -16,14 +16,14 @@ export class RelatoriComponent implements OnInit {
 
     constructor(
         public utilsService: UtilsService,
-        private graphQLService: GraphQLService,
+        private relatoriService: RelatoriService,
         private modalService: BsModalService
     ) {
     }
 
     async ngOnInit() {
         this.utilsService.loaderActive = true;
-        const data: any = await this.graphQLService.getFisioRelatori();
+        const data: any = await this.relatoriService.getRelatori();
         this.relatori = data?.fisio_relatori_anag;
         console.log(this.relatori);
         this.utilsService.loaderActive = false;
@@ -45,7 +45,7 @@ export class RelatoriComponent implements OnInit {
         });
         bsModalRef.content.eventYes.subscribe(async res => {
             this.utilsService.loaderActive = true;
-            const res1: any = await this.graphQLService.deleteRelatore(row.id);
+            const res1: any = await this.relatoriService.deleteRelatore(row.id);
             this.utilsService.loaderActive = false;
             if (res1?.errors) {
                 this.utilsService.showError();

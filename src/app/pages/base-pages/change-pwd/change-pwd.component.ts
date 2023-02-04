@@ -4,7 +4,6 @@ import {UtilsService} from '../../../services/utils/utils.service';
 import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {GenericConfirmComponent} from '../../../components/generic-confirm/generic-confirm.component';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {UserService} from '../../../services/user/user.service';
 
 @Component({
     selector: 'change-pwd',
@@ -25,7 +24,6 @@ export class ChangePwdComponent {
         private router: Router,
         private fb: FormBuilder,
         private modalService: BsModalService,
-        private userService: UserService,
         public modalRef: BsModalRef
     ) {
         this.form = fb.group({

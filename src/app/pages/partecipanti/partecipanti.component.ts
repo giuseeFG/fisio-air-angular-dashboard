@@ -1,8 +1,8 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {UtilsService} from '../../services/utils/utils.service';
-import {GraphQLService} from '../../services/graphQL/graphQL.service';
 import {GenericConfirmComponent} from '../../components/generic-confirm/generic-confirm.component';
 import {BsModalService} from 'ngx-bootstrap';
+import {PartecipantiService} from '../../services/partecipanti/partecipanti.service';
 
 @Component({
     selector: 'app-partecipanti',
@@ -16,14 +16,14 @@ export class PartecipantiComponent implements OnInit {
 
     constructor(
         public utilsService: UtilsService,
-        private graphQLService: GraphQLService,
-        private modalService: BsModalService
+        private modalService: BsModalService,
+        private partecipantiService: PartecipantiService
     ) {
     }
 
     async ngOnInit() {
         this.utilsService.loaderActive = true;
-        const data: any = await this.graphQLService.getFisioPartecipanti();
+        const data: any = await this.partecipantiService.getPartecipanti();
         this.partecipanti = data?.fisio_partecipanti;
         this.utilsService.loaderActive = false;
     }
@@ -38,24 +38,19 @@ export class PartecipantiComponent implements OnInit {
     removeUser(row) {
         const bsModalRef = this.modalService.show(GenericConfirmComponent, {
             initialState: {
-                title: 'Rimuovi utente',
-                text: 'Confermi di voler disabilitare l\'utente?'
+                title: 'Rimuovi partecipante',
+                text: 'Confermi di voler rimuovere il partecipante?'
             }
         });
         bsModalRef.content.eventYes.subscribe(async res => {
             this.utilsService.loaderActive = true;
-            const res1: any = await this.graphQLService.mutationDeleteGraphQL(
-                'delete_fisio_partecipanti',
-                'id',
-                row.id,
-                'Int'
-            );
+            const res1: any = await this.partecipantiService.deletePartecipante(row.id);
             this.utilsService.loaderActive = false;
             if (res1?.errors) {
                 this.utilsService.showError();
                 return;
             }
-            if (res1?.data?.delete_fisio_partecipanti?.affected_rows) {
+            if (res1?.delete_fisio_partecipanti?.affected_rows) {
                 this.utilsService.showMessage('Il partecipante è stato correttamente rimosso.', 'Ok');
                 this.partecipanti = this.partecipanti.filter(user => user.id !== row.id);
             } else {

@@ -7,7 +7,6 @@ import {UtilsService} from '../../services/utils/utils.service';
 // @ts-ignore
 import {version} from '../../../../package.json';
 import {environment} from '../../../environments/environment';
-import {UserRole} from '../../services/user/user.service';
 import firebase from "firebase";
 
 declare let jQuery: any;
@@ -85,43 +84,5 @@ export class SidebarComponent implements OnInit, AfterViewInit {
                 this.changeActiveNavigationItem(this.location);
             }
         });
-    }
-
-    canSee(page) {
-        switch (this.loginService.user?.role) {
-            case UserRole.EDITOR:
-                switch (page) {
-                    case 'pages':
-                    case 'menu':
-                    case 'media':
-                        return true;
-                    default:
-                        return false;
-                }
-            case UserRole.ADMIN:
-                switch (page) {
-                    case 'profile':
-                        return false;
-                    default:
-                        return true;
-                }
-            case UserRole.BACKOFFICE:
-                switch (page) {
-                    case 'menu':
-                    case 'pages':
-                    case 'profile':
-                    case 'media':
-                        return false;
-                }
-                return true;
-            case UserRole.AGENT:
-                switch (page) {
-                    case 'offers':
-                    case 'profile':
-                        return true;
-                }
-                return false;
-        }
-        return false;
     }
 }

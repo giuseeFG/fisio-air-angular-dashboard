@@ -5,7 +5,7 @@ import {LoginService} from '../../../services/login/login.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {GenericConfirmComponent} from '../../../components/generic-confirm/generic-confirm.component';
 import {BsModalService} from 'ngx-bootstrap';
-import {GraphQLService} from '../../../services/graphQL/graphQL.service';
+import {ProfessioniService} from '../../../services/professioni/professioni.service';
 
 @Component({
     selector: 'professione-detail',
@@ -23,12 +23,12 @@ export class ProfessioneDetailComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private modalService: BsModalService,
-        private graphQLService: GraphQLService
+        private professioniService: ProfessioniService
     ) {
         this.route.params.subscribe(async params => {
             let currentProfessione;
             if (params?.codice) {
-                const data: any = await this.graphQLService.getFisioProfessioni();
+                const data: any = await this.professioniService.getProfessione(params.codice);
                 if (data?.fisio_professioni) {
                     currentProfessione = data?.fisio_professioni[0];
                     this.currentProfessione = currentProfessione;
@@ -66,19 +66,9 @@ export class ProfessioneDetailComponent implements OnInit {
 
             let res1: any;
             if (this.currentProfessione) {
-                const data = {...this.form.value};
-                res1 = await this.graphQLService.mutationUpdateGraphQL(
-                    'update_fisio_professioni',
-                    'fisio_professioni_set_input',
-                    data,
-                    'codice',
-                    this.form.value.codice,
-                    'Int');
+                res1 = await this.professioniService.updateProfessione(this.form.value);
             } else {
-                res1 = await this.graphQLService.mutationInsertGraphQL(
-                    'insert_fisio_professioni',
-                    'fisio_professioni_insert_input',
-                    this.form.value);
+                res1 = await this.professioniService.insertProfessione(this.form.value);
             }
             this.utilsService.loaderActive = false;
             console.log(res1);

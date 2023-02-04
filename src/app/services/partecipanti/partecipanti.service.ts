@@ -26,30 +26,23 @@ export class PartecipantiService {
     ) {
     }
 
-    async updatePartecipante(data) {
-        return await this.httpClient.patch(environment.basePath + '/partecipanti/' + data.id, {data}, {
-            headers: {
-                'Content-Type': 'application/vnd.pgrst.object+json',
-                'x-hasura-admin-secret': environment.hasuraSecret
-            }
-        }).toPromise();
-    }
-
-    getPartecipanti() {
-        return this.httpClient.get(environment.basePath + '/partecipanti', {
-            headers: {
-                'Content-Type': 'application/vnd.pgrst.object+json',
-                'x-hasura-admin-secret': environment.hasuraSecret
-            }
-        }).toPromise();
+    async getPartecipanti() {
+        return await this.httpClient.get(environment.basePath + '/partecipanti').toPromise();
     }
 
     async getPartecipante(id) {
-        return await this.httpClient.get(environment.basePath + '/partecipanti/' + id, {
-            headers: {
-                'Content-Type': 'application/vnd.pgrst.object+json',
-                'x-hasura-admin-secret': environment.hasuraSecret
-            }
-        }).toPromise();
+        return await this.httpClient.get('https://fisioair.hasura.app/api/rest/partecipante/' + id).toPromise();
+    }
+
+    async updatePartecipante(data) {
+        return await this.httpClient.patch(environment.basePath + '/partecipante/' + data.id, {data}).toPromise();
+    }
+
+    async insertPartecipante(data) {
+        return await this.httpClient.post(environment.basePath + '/partecipante', {data}).toPromise();
+    }
+
+    async deletePartecipante(id) {
+        return await this.httpClient.delete('https://fisioair.hasura.app/api/rest/partecipante/' + id).toPromise();
     }
 }

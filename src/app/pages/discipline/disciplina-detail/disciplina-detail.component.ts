@@ -5,7 +5,7 @@ import {LoginService} from '../../../services/login/login.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {GenericConfirmComponent} from '../../../components/generic-confirm/generic-confirm.component';
 import {BsModalService} from 'ngx-bootstrap';
-import {GraphQLService} from '../../../services/graphQL/graphQL.service';
+import {DisciplineService} from '../../../services/discipline/discipline.service';
 
 @Component({
     selector: 'disciplina-detail',
@@ -23,12 +23,12 @@ export class DisciplinaDetailComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private modalService: BsModalService,
-        private graphQLService: GraphQLService
+        private disciplineService: DisciplineService
     ) {
         this.route.params.subscribe(async params => {
             let currentDisciplina;
             if (params?.codice) {
-                const data: any = await this.graphQLService.getDisciplina(params.codice);
+                const data: any = await this.disciplineService.getDisciplina(params.codice);
                 if (data?.fisio_discipline) {
                     currentDisciplina = data?.fisio_discipline[0];
                     this.currentDisciplina = currentDisciplina;
@@ -67,9 +67,9 @@ export class DisciplinaDetailComponent implements OnInit {
 
             let res1: any;
             if (this.currentDisciplina) {
-                res1 = await this.graphQLService.updateDisciplina(this.form.value.codice, this.form.value);
+                res1 = await this.disciplineService.updateDisciplina(this.form.value.codice, this.form.value);
             } else {
-                res1 = await this.graphQLService.insertDisciplina(this.form.value);
+                res1 = await this.disciplineService.insertDisciplina(this.form.value);
             }
             this.utilsService.loaderActive = false;
             console.log(res1);

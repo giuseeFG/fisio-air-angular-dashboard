@@ -5,7 +5,6 @@ import {LoginService} from '../../services/login/login.service';
 import {UtilsService} from '../../services/utils/utils.service';
 import {GenericConfirmComponent} from '../../components/generic-confirm/generic-confirm.component';
 import {BsModalService} from 'ngx-bootstrap';
-import {UserService} from '../../services/user/user.service';
 import {ChangePwdComponent} from '../../pages/base-pages/change-pwd/change-pwd.component';
 
 declare let jQuery: any;
@@ -26,8 +25,7 @@ export class NavbarComponent implements OnInit {
         private router: Router,
         public loginService: LoginService,
         public utilsService: UtilsService,
-        private modalService: BsModalService,
-        private userService: UserService
+        private modalService: BsModalService
     ) {
         this.$el = jQuery(el.nativeElement);
         this.config = config.getConfig();
